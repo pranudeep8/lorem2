@@ -1,0 +1,86 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <mat-tab-group>
+    <mat-tab label="First"> 
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field>
+            <mat-label>By CUSIP or type</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let food of ['CUSIP','Bills']" [value]="food">
+                {{food}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+      
+            <mat-form-field>
+                <mat-label>Search by CUSIP</mat-label>
+              <input matInput placeholder="Enter CUSIP Number" [(ngModel)]="cusip">
+            </mat-form-field>
+         
+        </div>
+        <div class="col-md-3">
+            <button mat-button color="primary" (click)="getCusip()" type="button">Search</button>
+        </div>
+      </div>
+      <div class="row">
+        
+        <ul style="list-style: none;">
+          <li><h3>Bonds</h3></li>
+          <li *ngFor="let bond of bonds.prodcuts">
+            {{bond.NUMBEROFCUSIPS}}
+          </li>
+        </ul>
+</div>
+</mat-tab>
+<mat-tab label="Second">
+  <div class="row">
+    <div class="col-md-6">
+        <mat-form-field color="accent">
+            <mat-label>From Date</mat-label>
+            <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate" (dateChange)="getCusipByDate()">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+          <span>to</span>
+          <mat-form-field color="accent">
+            <mat-label>To Date</mat-label>
+            <input matInput [matDatepicker]="picker2" (dateChange)="getCusipByDate()">
+            <mat-datepicker-toggle matSuffix [for]="picker2" [(ngModel)]="toDate"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 color="primary"></mat-datepicker>
+          </mat-form-field>
+    </div>
+    <div class="col-md-3">
+        <mat-form-field>
+            <mat-label>Type</mat-label>
+            <mat-select  [(ngModel)]="cusipType" >
+              <mat-option (click)="getCusipByDate()" *ngFor="let food of ['CUSIP','Bills', 'All']" [value]="food">
+                {{food}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+    <div class="col-md-3">
+        <button mat-button color="primary" (click)="validateData()"  type="button">{{btnText}}</button>
+    </div>
+   
+  </div>
+  <div *ngIf="showData">
+  <div class="row">
+    <div class="col-md-4">Id</div>
+    <div class="col-md-4">Type</div>
+    <div class="col-md-4">Maturity Date</div>
+  </div>
+ 
+  <div class="row" *ngFor="let item of maturedBonds.prodcuts">
+    <div class="col-md-4">{{item.ID}}</div>
+    <div class="col-md-4">{{item.TYPE}}</div>
+    <div class="col-md-4">{{item.MATURITYDATE}}</div>
+  </div>
+</div>
+</mat-tab>
+</mat-tab-group>
+</div>
+<router-outlet></router-outlet>
